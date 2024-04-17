@@ -1,18 +1,18 @@
 import React from 'react'
 import rocketImg from '../assets/rocket.png'
-import { ContactUs } from './ContactUs'
-import { NavBar1 } from './NavBar1'
+import { AddEmployee } from './AddEmployee'
+import { NavBar2 } from './NavBar2'
 
-export const ContactusComponent = () => {
+export const AdminEmployeeComponent = () => {
     return (
         <div>
     <div>
-        <NavBar1 />
+        <NavBar2 />
     </div>
         <div className="container mt-3">
         <div className="row">
           <div className="col-md-5">
-            <ContactUs />
+            <AddEmployee />
           </div>
           <div className="col-md-7 my-auto">
             <img className="img-fluid w-100" src={rocketImg} alt=""/>

@@ -2,38 +2,57 @@ import React from 'react';
 import { Formik, Form } from 'formik';
 import { TextField } from './TextField';
 import * as Yup from 'yup';
+import axios from 'axios';
+import { Navigate } from 'react-router-dom';
 
-export const Login = () => {
+export const Login = ({user,setUser}) => {
   const validate = Yup.object({
-    firstName: Yup.string()
-      .max(15, 'Must be 15 characters or less')
-      .required('Required'),
-    lastName: Yup.string()
-      .max(20, 'Must be 20 characters or less')
-      .required('Required'),
     email: Yup.string()
       .email('Email is invalid')
       .required('Email is required'),
     password: Yup.string()
       .min(6, 'Password must be at least 6 charaters')
-      .required('Password is required'),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref('password'), null], 'Password must match')
-      .required('Confirm password is required'),
+      .required('Password is required')
+
   })
+  if (user === "Login Success") {
+    return <Navigate to="/adminLogin" replace={true}/>;
+  }
   return (
     <Formik
       initialValues={{
-        firstName: '',
-        lastName: '',
         email: '',
-        password: '',
-        confirmPassword: ''
+        password: ''
+
       }}
       validationSchema={validate}
       onSubmit={values => {
         console.log(values)
+      //   const response = fetch.post("http://localhost:8080/login",
+      //     JSON.stringify({ values }),
+      //     {
+      //         headers: { 'Content-Type': 'application/json' },
+      //         withCredentials: true,
+      //         crossDomain: true,
+      //         'Access-Control-Allow-Credentials': true
+              
+      //     }
+      // );
+      // console.log(JSON.stringify(response?.data));
+
+      const response = fetch("http://localhost:8080/login", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+        credentials: 'include', // Equivalent to withCredentials: true in Axios
+        mode: 'cors', // Equivalent to crossDomain: true in Axios
+      }).then (response=> 
+        {return response.json()}).then(data => { console.log(data); setUser(data.message)})
       }}
+
+      
     >
       {formik => (
         <div>
